@@ -1,0 +1,45 @@
+name: Auto Merge on CI Success
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+permissions:
+  pull-requests: write
+  contents: write
+  checks: read
+  actions: read
+
+jobs:
+  auto-merge:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto-merge PR when CI passes
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const head = context.payload.workflow_run.head_branch;
+            if (!head) {
+              core.info('No head branch in workflow_run payload — nothing to merge.');
+              return;
+            }
+            core.info(`Looking for open PRs with head: ${head}`);
+            const pulls = await github.rest.pulls.list({ owner, repo, head: `${owner}:${head}`, state: 'open' });
+            if (!pulls.data || pulls.data.length === 0) {
+              core.info('No open PR found for branch: ' + head);
+              return;
+            }
+            const pr = pulls.data[0];
+            core.info(`Found PR #${pr.number} — attempting merge.`);
+            try {
+              await github.rest.pulls.merge({ owner, repo, pull_number: pr.number, merge_method: 'squash' });
+              core.info(`Merged PR #${pr.number}`);
+            } catch (err) {
+              core.info(`Merge attempt failed: ${err.message}`);
+              throw err;
+            }
