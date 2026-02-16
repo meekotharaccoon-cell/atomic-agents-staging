@@ -39,4 +39,14 @@ jobs:
         env:
           API_KEY: dummy
         run: pytest -q
+      - name: Run coverage
+        run: |
+          pip install pytest-cov
+          pytest --cov=src --cov-report=xml -q
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: false
 
