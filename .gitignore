@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+
+# Editor folders
+.vscode/
+.idea/
+
+# Data and logs (keep out of repo)
+data/
+
+# Byte-compiled / cache
+*.pyc
