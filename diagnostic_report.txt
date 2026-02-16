@@ -1,0 +1,70 @@
+﻿========================================
+ATOMIC AGENTS DIAGNOSTIC REPORT
+Generated: 02/14/2026 18:25:33
+========================================
+
+[1] PROJECT DIRECTORY STATUS
+Status: EXISTS
+Current Location: C:\atomic-agents
+
+[2] DIRECTORY STRUCTURE
+✅ src
+✅ src\core
+✅ src\communication
+✅ src\models
+✅ src\tools
+✅ tests
+✅ venv
+
+[3] KEY FILES
+✅ .env (291 bytes)
+✅ requirements.txt (175 bytes)
+✅ src\__init__.py (5 bytes)
+✅ src\core\__init__.py (5 bytes)
+✅ src\core\agent.py (2590 bytes)
+✅ src\core\safety.py (2177 bytes)
+✅ src\models\__init__.py (5 bytes)
+✅ src\models\cerebras_client.py (2145 bytes)
+✅ src\main.py (1370 bytes)
+
+[4] ENVIRONMENT CONFIGURATION
+API_KEY: csk-...fjdk (SET)
+Provider: Cerebras (or other)
+BASE_URL: https://api.cerebras.ai/v1
+MODEL: llama-3.3-70b
+PROVIDER: cerebras
+
+[5] PYTHON ENVIRONMENT
+Python: Python 3.12.10
+Virtual Env: EXISTS
+Venv Python: Python 3.12.10
+
+[6] INSTALLED PACKAGES
+✅ aiohttp           3.13.3
+✅ aiohttp-cors      0.8.1
+✅ pydantic          2.12.5
+✅ pydantic_core     2.41.5
+✅ pydantic-settings 2.12.0
+✅ python-dotenv     1.2.1
+✅ structlog         25.5.0
+✅ tenacity          9.1.4
+
+[7] RUNTIME TEST
+❌ ERRORS DETECTED:
+python : Traceback (most recent call last):
+At line:2 char:20
++     $errorOutput = python -m src.main 2>&1 | Out-String
++                    ~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\atomic-agents\src\main.py", line 4, in <module>
+    from core.agent import AIChatbot
+ModuleNotFoundError: No module named 'core'
+
+
+[8] SUMMARY
+Ready to fix: YES - Paste this report to Kimi
+========================================
