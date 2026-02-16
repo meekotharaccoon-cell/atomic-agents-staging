@@ -1,0 +1,25 @@
+name: Conductor Dispatch Listener
+
+on:
+  repository_dispatch:
+    types: [conductor_dispatch]
+
+jobs:
+  handle_dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Print dispatch payload
+        run: |
+          echo "Repository: ${GITHUB_REPOSITORY}"
+          echo "Event type: ${GITHUB_EVENT_NAME}"
+          echo "Dispatch type: ${{ github.event.action || 'conductor_dispatch' }}"
+          echo "Client payload: ${{ toJson(github.event.client_payload) }}"
+
+      - name: If requested, run tests
+        if: contains(toJson(github.event.client_payload), 'run-tests')
+        run: |
+          echo "Running test suite because conductor requested it..."
+          pytest -q || exit 1

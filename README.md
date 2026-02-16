@@ -1,5 +1,9 @@
 # Atomic Agents
 
+[![CI](https://github.com/meekotharaccoon-cell/atomic-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/meekotharaccoon-cell/atomic-agents/actions)
+[![Staging CI](https://github.com/meekotharaccoon-cell/atomic-agents-staging/actions/workflows/ci.yml/badge.svg)](https://github.com/meekotharaccoon-cell/atomic-agents-staging/actions)
+[![Demo CI](https://github.com/meekotharaccoon-cell/atomic-agents-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/meekotharaccoon-cell/atomic-agents-demo/actions)
+
 Minimal developer README with run and test instructions.
 
 Prereqs
