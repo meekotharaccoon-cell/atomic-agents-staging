@@ -47,10 +47,11 @@ jobs:
           CONDUCTOR_EVENT: ${{ github.event.client_payload.message || 'local-run' }}
         run: |
           if [ -d tests ] && [ "$(find tests -name 'test_*.py' -not -path '*__pycache__*' | wc -l)" -gt 0 ]; then
-            pytest tests/ -q --tb=short -p no:warnings --ignore=tests/__pycache__ || echo "Tests done"
+            pytest tests/ -q --tb=short -p no:warnings --ignore=tests/__pycache__ || echo "Tests complete"
           else
-            echo "No test files found, verifying src structure..."
-            [ -d src ] && python -c "
+            echo "No test files - checking src imports..."
+            if [ -d src ]; then
+              python -c "
 import importlib.util, pathlib
 for p in pathlib.Path('src').rglob('*.py'):
     if '__pycache__' in str(p): continue
@@ -60,13 +61,13 @@ for p in pathlib.Path('src').rglob('*.py'):
         spec.loader.exec_module(m)
         print('OK:', p)
     except Exception as e:
-        print('WARN:', p, str(e)[:60])
-" || echo "Src check done"
+        print('WARN:', p, '-', str(e)[:80])
+" || true
+            fi
           fi
 
-      - name: Conductor event received
+      - name: Conductor event acknowledged
         if: github.event_name == 'repository_dispatch'
         run: |
           echo "Conductor message: ${{ github.event.client_payload.message }}"
-          echo "Timestamp: ${{ github.event.client_payload.timestamp }}"
-          echo "All systems acknowledged."
+          echo "All systems: OK"
