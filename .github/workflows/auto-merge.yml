@@ -20,15 +20,18 @@ jobs:
           github-token: ${{ secrets.CONDUCTOR_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
             const pr_num = context.payload.pull_request?.number;
-            if (!pr_num) { core.info('No PR found'); return; }
+            if (!pr_num) {
+              core.info("No PR context - skipping");
+              return;
+            }
             try {
               await github.rest.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: pr_num,
-                merge_method: 'squash'
+                merge_method: "squash"
               });
-              core.info('Auto-merged PR #' + pr_num);
+              core.info("PR #" + pr_num + " merged");
             } catch(e) {
-              core.warning('Auto-merge: ' + e.message);
+              core.info("Could not merge: " + e.message);
             }
